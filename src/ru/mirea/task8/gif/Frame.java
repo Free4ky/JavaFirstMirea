@@ -7,9 +7,9 @@ import javax.swing.*;
 public class Frame extends JFrame {
     public Frame()
     {
-        super("Shapes");
+        super("Gif");
         add(new Image_class());
-        setSize(500,500);
+        setSize(800,800);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
