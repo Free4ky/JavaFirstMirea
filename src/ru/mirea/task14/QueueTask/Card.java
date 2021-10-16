@@ -1,4 +1,4 @@
-package ru.mirea.task14.StackTask;
+package ru.mirea.task14.QueueTask;
 
 public class Card {
     private int value;

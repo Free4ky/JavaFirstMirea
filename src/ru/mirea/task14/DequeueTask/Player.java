@@ -1,29 +1,29 @@
-package ru.mirea.task14.StackTask;
+package ru.mirea.task14.DequeueTask;
 
+import ru.mirea.task14.QueueTask.Card;
+
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class Player {
-    private Stack<Card> cards = new Stack<>();
+    private Deque<Card> cards = new LinkedList<>();
     Scanner sc = new Scanner(System.in);
     public Player() {
         Card card;
         String str;
         str = sc.nextLine();
-        str = reverseString(str);
+        //str = reverseString(str);
         char[] s = str.toCharArray();
         for (int i = 0; i < str.length(); i++){
             if (Character.isDigit(s[i])){
                 card = new Card(s[i] - '0');
-                cards.push(card);
+                cards.add(card);
             }
         }
     }
-    public Stack<Card> getCards() {
+    public Deque<Card> getCards() {
         return cards;
-    }
-
-    public static String reverseString(String str) {
-        return new StringBuilder(str).reverse().toString();
     }
 }
