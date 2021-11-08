@@ -79,6 +79,12 @@ public class Enemy {
     public double getY(){return this.y;}
     public double getR(){return this.r;}
 
+    public type getType(){
+        return this.tp;
+    }
+    public rank getRank(){
+        return this.rk;
+    }
     public void hit(){
         health--;
         if (health <=0){

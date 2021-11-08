@@ -45,6 +45,7 @@ public class Player {
     private long recoveryTimer;
     private long recoveryDelay = 2000;
 
+    private int score; // счет игрока
 
     //КОНСТРУКТОР
 
@@ -82,6 +83,8 @@ public class Player {
 
         recovering = false;
         recoveryTimer = 0;
+
+        score = 0;
     }
 
     // ФУНКЦИИ
@@ -119,14 +122,14 @@ public class Player {
         x += dx;
         y += dy;
 
-        if (x < icon_width) {
-            x = icon_width;
+        if (x < icon_width/2) {
+            x = icon_width/2;
         }
-        if (y < icon_height){
-            y = icon_height;
+        if (y < icon_height/100){
+            y = icon_height/100;
         }
-        if (x > GamePanel.WIDTH - icon_width) {
-            x = GamePanel.WIDTH - icon_width;
+        if (x > GamePanel.WIDTH - icon_width/2) {
+            x = GamePanel.WIDTH - icon_width/2;
         }
         if (y > GamePanel.HEIGHT - icon_height){
             y = GamePanel.HEIGHT - icon_height;
@@ -207,9 +210,18 @@ public class Player {
         return this.icon_height;
     }
     public boolean isRecovering(){return this.recovering;}
+
+    //если игрок столкнулся со врагом
     public void loseLife(){
         lives--;
         recovering = true; // после получения удара начинает восстанавливаться
         recoveryTimer = System.nanoTime(); // начинается отсчет времени восстановления
+    }
+
+    public int getScore() {
+        return score;
+    }
+    public void addScore(int i){
+        score += i;
     }
 }

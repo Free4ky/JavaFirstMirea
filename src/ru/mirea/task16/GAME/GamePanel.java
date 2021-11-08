@@ -155,6 +155,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 double ey = e.getY();
                 double er = e.getR();
 
+
                 double dx = bx - ex; // разница координат по x
                 double dy = by - ey; // разница координат по y
                 double dist = Math.sqrt(dx*dx + dy*dy);
@@ -171,6 +172,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // проверка мертвых врагов
         for (int i = 0; i < enemies.size(); i++){
             if (enemies.get(i).isDead()){
+                Enemy e = enemies.get(i);
+                if (e.getType() == type.type_first){
+                    if (e.getRank() == rank.rank_first){ // сколько очков за врага первого типа первого ранга
+                        player.addScore(100);
+                    }
+                }
                 enemies.remove(i);
                 i--;
             }
@@ -226,7 +233,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // отрисовка номера волны
         if (waveStartTimer != 0){ // если волна в процессе
             g.setFont(new Font("Century Gothic",Font.PLAIN,18));
-            String s = "- W A W E  " + waveNumber + "  -";
+            String s = "- W A V E  " + waveNumber + "  -";
             int length = (int) g.getFontMetrics().getStringBounds(s,g).getWidth(); // длина строки в пикселях
             int alpha = (int) (255*Math.sin(3.14*waveStartTimerDiff / waveDelay)); // прозрачность
             if (alpha > 255) {
@@ -246,6 +253,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < player.getLives(); i++){
             g.drawImage(health_icon,(int)(10+i*20),30, null);
         }
+
+        //отрисовка счета игрока
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Century Gothic", Font.PLAIN,14));
+        g.drawString("Score: "+player.getScore(),WIDTH - 100,30);
+        g.setFont(new Font("Century Gothic",Font.PLAIN,10));
     }
     private void gameDraw(){ // отрисовка закадрового изображения. Объект g связан с закадровым изображением
         Graphics g2  = this.getGraphics();// графический объект для GamePanel. Это кисть для ирового экрана
