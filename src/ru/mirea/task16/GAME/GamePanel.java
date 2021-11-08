@@ -169,13 +169,37 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
 
         // проверка мертвых врагов
-
         for (int i = 0; i < enemies.size(); i++){
             if (enemies.get(i).isDead()){
                 enemies.remove(i);
                 i--;
             }
         }
+
+        // коллизия врага и игрока
+        if (!player.isRecovering()){ // если игрок не восстанавливается
+            int px = player.getX();
+            int py = player.getY();
+            int pw = player.getIcon_width();
+            int ph = player.getIcon_height();
+            py = py + ph/2; // решение проблемы хитбокса игрока
+            for (int i = 0; i < enemies.size(); i++){
+                Enemy e = enemies.get(i);
+                double ex = e.getX();
+                double ey = e.getY();
+                double er = e.getR();
+
+                double dx = ex-px;
+                double dy = ey-py;
+                double diagonal = Math.sqrt(pw*pw + ph*ph)/2;
+                diagonal = diagonal - diagonal/3;
+                double dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist <= diagonal + er){
+                    player.loseLife();
+                }
+            }
+        }
+
     }
 
     private void gameRender(){ // отрисовывает все компоненты игры(игрока врагов снаряды задний фон и т.д)

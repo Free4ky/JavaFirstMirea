@@ -40,6 +40,12 @@ public class Player {
     private Color color2;
 
     private pictures pic;
+
+    private boolean recovering; // игрок восстанавливается от удара
+    private long recoveryTimer;
+    private long recoveryDelay = 2000;
+
+
     //КОНСТРУКТОР
 
     public Player(){
@@ -59,6 +65,11 @@ public class Player {
              player_icon = resize(buf,icon_width,icon_height);
 
         }catch (IOException e){}
+        try {
+            buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_player_icon.png"));
+            hit_player_icon = resize(buf,icon_width,icon_height);
+
+        }catch (IOException e){}
 
         color1 = Color.WHITE;
         color2 = Color.red;
@@ -68,6 +79,9 @@ public class Player {
         firing = false;// при появлении игрок не стреляет
         firingTimer = System.nanoTime(); // текущее время
         firingDelay = 200; // миллисекунд задержка выстрела
+
+        recovering = false;
+        recoveryTimer = 0;
     }
 
     // ФУНКЦИИ
@@ -105,11 +119,11 @@ public class Player {
         x += dx;
         y += dy;
 
-        if (x < icon_width / 100) {
-            x = icon_width / 100;
+        if (x < icon_width) {
+            x = icon_width;
         }
-        if (y < icon_height / 100){
-            y = icon_height / 100;
+        if (y < icon_height){
+            y = icon_height;
         }
         if (x > GamePanel.WIDTH - icon_width) {
             x = GamePanel.WIDTH - icon_width;
@@ -123,7 +137,7 @@ public class Player {
         if (firing){ // если игрок стреляет
             long elapsed = (System.nanoTime() - firingTimer)/1000000; // сколько времени прощло с момента последнего выстрела
             if (elapsed > firingDelay){
-                GamePanel.bullets.add(new Bullet(270,x+icon_width/2,y));
+                GamePanel.bullets.add(new Bullet(270,x,y));
                 firingTimer = System.nanoTime();
             }
         }
@@ -148,10 +162,22 @@ public class Player {
                     break;
             }
         }catch (Exception e){}
+
+        // логика таймера восстановления
+        long past = (System.nanoTime() - recoveryTimer) / 1000000;
+        if (past > recoveryDelay){ // после удара 2 секунды неуязвимости
+            recovering = false;
+            recoveryTimer = 0;
+        }
     }
 
     public void draw(Graphics2D g){
-        g.drawImage(player_icon,x, y, null);
+        if (recovering){
+            g.drawImage(hit_player_icon,x-icon_width/2,y,null);
+        }
+        else{
+            g.drawImage(player_icon,x-icon_width/2, y, null);
+        }
     }
 
     public static BufferedImage resize(BufferedImage img, int newW, int newH) {
@@ -179,5 +205,11 @@ public class Player {
     }
     public int getIcon_height(){
         return this.icon_height;
+    }
+    public boolean isRecovering(){return this.recovering;}
+    public void loseLife(){
+        lives--;
+        recovering = true; // после получения удара начинает восстанавливаться
+        recoveryTimer = System.nanoTime(); // начинается отсчет времени восстановления
     }
 }
