@@ -30,6 +30,11 @@ public class Bullet {
         bullet_color = Color.YELLOW;
     }
     //FUNCTIONS
+
+    public double getX(){return this.x;}
+    public double getY(){return this.y;}
+    public double getR(){return this.r;}
+
     public boolean update(){
         x+=dx;
         y+=dy;

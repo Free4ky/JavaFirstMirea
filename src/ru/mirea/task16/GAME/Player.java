@@ -7,6 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+enum pictures{
+    first_pic,second_pic,third_pic
+}
 
 public class Player {
     // ПОЛЯ
@@ -36,6 +39,7 @@ public class Player {
     private Color color1;
     private Color color2;
 
+    private pictures pic;
     //КОНСТРУКТОР
 
     public Player(){
@@ -55,13 +59,11 @@ public class Player {
              player_icon = resize(buf,icon_width,icon_height);
 
         }catch (IOException e){}
-        try{
-             buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_player_icon.png"));
-             hit_player_icon = resize(buf,icon_width,icon_height);
-        }catch(IOException e){}
 
         color1 = Color.WHITE;
         color2 = Color.red;
+
+        pic = pictures.first_pic;
 
         firing = false;// при появлении игрок не стреляет
         firingTimer = System.nanoTime(); // текущее время
@@ -125,6 +127,27 @@ public class Player {
                 firingTimer = System.nanoTime();
             }
         }
+        // анимация ракеты
+        BufferedImage buf;
+        try{
+            switch (pic){
+                case first_pic:
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon2.png"));
+                    player_icon = player_icon = resize(buf,icon_width,icon_height);
+                    pic = pictures.second_pic;
+                    break;
+                case second_pic:
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon3.png"));
+                    player_icon = player_icon = resize(buf,icon_width,icon_height);
+                    pic = pictures.third_pic;
+                    break;
+                case third_pic:
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon.png"));
+                    player_icon = player_icon = resize(buf,icon_width,icon_height);
+                    pic = pictures.first_pic;
+                    break;
+            }
+        }catch (Exception e){}
     }
 
     public void draw(Graphics2D g){
@@ -142,5 +165,19 @@ public class Player {
         return dimg;
     }
 
-
+    public int getLives(){
+        return this.lives;
+    }
+    public int getX(){
+        return this.x;
+    }
+    public int getY(){
+        return this.y;
+    }
+    public int getIcon_width(){
+        return this.icon_width;
+    }
+    public int getIcon_height(){
+        return this.icon_height;
+    }
 }
