@@ -9,10 +9,14 @@ enum pic{
     first_pic, second_pic, third_pic, fourth_pic
 }
 enum type{
-    type_first, type_second
+    type_first, type_second, type_third
 }
 enum rank{
-    rank_first, rank_second
+    rank_first, rank_second, rank_third, rank_fourth;
+    private static rank[] vals = values();
+    public rank previous(){
+        return vals[(this.ordinal() - 1) % vals.length];
+    }
 }
 public class Enemy {
     //FIELDS
@@ -34,9 +38,16 @@ public class Enemy {
     private Color color1;
 
     private BufferedImage enemy_icon;
+    private BufferedImage hit_enemy_icon;
 
     private boolean ready; // показывает находится ли враг на экране
     private boolean dead; // мертв ли враг
+
+    private boolean hit;
+    private long hitTimer;
+    private int hitDelay = 70;
+
+    private boolean slow;
 
     //CONSTRUCTOR
     public Enemy(type type, rank rank){
@@ -67,6 +78,26 @@ public class Enemy {
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
+            else if (rk == rank.rank_third){
+                speed = 2;
+                r = 30;
+                r2 = (int)(r*3);
+                health = 5;
+                try {
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
+                    enemy_icon = resize(buf,r2,r2);
+                }catch (Exception e){}
+            }
+            else if (rk == rank.rank_fourth){
+                speed = 1;
+                r = 40;
+                r2 = (int)(r*3);
+                health = 10;
+                try {
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
+                    enemy_icon = resize(buf,r2,r2);
+                }catch (Exception e){}
+            }
         }
         else if (tp == type.type_second){
             if (rk == rank.rank_first){
@@ -85,7 +116,7 @@ public class Enemy {
                 r2 = (int)(r*3);
                 health = 1;
                 try {
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\Enemy_Type2.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_Enemy_Type2.png"));
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
@@ -103,13 +134,16 @@ public class Enemy {
 
         picture = pic.second_pic;
 
+        hit = false;
+        hitTimer = 0;
+
     }
 
     //FUNCTIONS
 
     public double getX(){return this.x;}
     public double getY(){return this.y;}
-    public double getR(){return this.r;}
+    public int getR(){return this.r;}
 
     public type getType(){
         return this.tp;
@@ -122,15 +156,44 @@ public class Enemy {
         if (health <=0){
             dead = true;
         }
+        hit = true;
+        hitTimer = System.nanoTime();
     }
 
     public boolean isDead() {
         return dead;
     }
 
+    public void explode(){
+
+        if (rk == rank.rank_second || rk == rank.rank_third || rk == rank.rank_fourth){
+            for (int i = 0; i < 3; i++){
+                Enemy e = new Enemy(getType(), getRank().previous());
+                e.x = this.x; // враги появляются на месте взрыва предыдущего
+                e.y = this.y;
+                double angle = 0;
+                if (!ready) {
+                    angle = Math.random() * 140 + 20;
+                }
+                else{
+                    angle = Math.random() * 360;
+                }
+                e.rad = Math.toRadians(angle);
+                GamePanel.enemies.add(e);
+            }
+        }
+
+    }
     public void update(){
-        x += dx;
-        y += dy;
+
+        if (slow){ // если время замедлено, то враги движутся медленнее
+            x += 0.3*dx;
+            y += 0.3*dy;
+        }
+        else{
+            x += dx;
+            y += dy;
+        }
 
         if (!ready){
             if (x > r && x < GamePanel.WIDTH - r &&
@@ -179,9 +242,46 @@ public class Enemy {
                 }
             }catch (Exception e){}
         }
+        if (hit){
+            long past = (System.nanoTime() - hitTimer)/1000000;
+            if (past > hitDelay){
+                hit = false;
+                hitTimer = 0;
+            }
+        }
     }
     public void draw(Graphics2D g){
-        g.drawImage(enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
+        if(hit){
+            try{
+                BufferedImage buf;
+                if (tp == type.type_first){
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_enemy11.png"));
+                    hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
+                    g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
+                }
+                else if (tp == type.type_second){
+
+                    if (rk == rank.rank_first){
+
+                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_Enemy_Type21.png"));
+                        hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
+                        g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
+                    }
+                    else if (rk == rank.rank_second){
+                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\Enemy_Type2.png"));
+                        hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
+                        g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
+                    }
+                }
+            }catch(Exception e){}
+        }
+        else{
+            g.drawImage(enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
+        }
+    }
+
+    public void setSlow(boolean b){
+        this.slow = b;
     }
 
     public static BufferedImage resize(BufferedImage img, int newW, int newH) {

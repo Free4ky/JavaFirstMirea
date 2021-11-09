@@ -6,13 +6,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 enum power_type{
-    addExtraLife, addOnePower, addTwoPower
+    addExtraLife, addOnePower, addTwoPower, slowTime
 }
 
 //addExtraLife - +1 life
 //addOnePower - +1 power
 //addTwoPower - +2 power
-
+//slowTme - slow down time
 public class PowerUp {
     //FIELDS
     private double x;
@@ -50,6 +50,11 @@ public class PowerUp {
                 case addTwoPower:
                     r = 20;
                     buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\powerUp_icon2_1.png"));
+                    powerUp_icon = resize(buf,r,r);
+                    break;
+                case slowTime:
+                    r = 20;
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\slowTime.png"));
                     powerUp_icon = resize(buf,r,r);
                     break;
             }

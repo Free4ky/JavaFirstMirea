@@ -186,10 +186,12 @@ public class Player {
         }catch (Exception e){}
 
         // логика таймера восстановления
-        long past = (System.nanoTime() - recoveryTimer) / 1000000;
-        if (past > recoveryDelay){ // после удара 2 секунды неуязвимости
-            recovering = false;
-            recoveryTimer = 0;
+        if (recovering){
+            long past = (System.nanoTime() - recoveryTimer) / 1000000;
+            if (past > recoveryDelay){ // после удара 2 секунды неуязвимости
+                recovering = false;
+                recoveryTimer = 0;
+            }
         }
     }
 

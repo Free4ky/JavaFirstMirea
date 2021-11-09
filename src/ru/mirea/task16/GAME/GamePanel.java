@@ -28,6 +28,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public static ArrayList<Bullet> bullets; // массив пуль
     public static ArrayList<Enemy> enemies; // массив врагов
     public static ArrayList<PowerUp> powerUps; //массив припасов-улучшений
+    public static ArrayList<Explosion> explosions;
+    public static ArrayList<Text> texts;
 
     private long waveStartTimer;
     private long waveStartTimerDiff; // показывает сколько времени прошло
@@ -35,9 +37,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private boolean waveStart; // показвает началась ли волна
     private int waveDelay = 2000;
 
+    private static int frameCount;
+
     private BufferedImage health_icon;
 
     private BufferedImage background;
+
+    private long slowDownTimer; // таймер замедления времени
+    private long slowDownTimerDiff;
+    private int slowDownLength = 6000; // время замедления
 
     // КОНСТРУКТОР
     public GamePanel(){
@@ -71,6 +79,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         powerUps = new ArrayList<PowerUp>(); // инициализация листа улучшений
 
+        explosions = new ArrayList<Explosion>(); // инициализация листа взрывов
+
+        texts = new ArrayList<Text>();
+
         waveStartTimer = 0;
         waveStartTimerDiff = 0;
         waveStart = true;
@@ -81,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         long waitTime;
         long totalTime = 0;
 
-        int frameCount = 0;
+        frameCount = 0;
         int maxFrameCount = 30;
 
         long targetTime = 1000/FPS; // количество миллисекнуд на один круг программы
@@ -111,6 +123,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
 
     }
+    public static int getFrameCount(){return frameCount;}
     private void gameUpdate(){ // обновление игры (позиции игрока, позиции врага, позиции снарядов, столкновений и т.д)
 
         //Новая волна
@@ -157,6 +170,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 i--;
             }
         }
+
+        // Обновление взрывов
+        for (int i = 0; i < explosions.size(); i++){
+            boolean remove = explosions.get(i).update();
+            if (remove){
+                explosions.remove(i);
+                i--;
+            }
+        }
+
+        //Обновление текстов
+        for (int i = 0; i < texts.size(); i++){
+            boolean remove = texts.get(i).update();
+            if (remove){
+                texts.remove(i);
+                i--;
+            }
+        }
+
         // коллизия пули и врага
         for (int i = 0; i < bullets.size(); i++){
             Bullet b = bullets.get(i);
@@ -202,13 +234,35 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 else if (rand < 0.120){
                     powerUps.add(new PowerUp(power_type.addOnePower,e.getX(),e.getY()));
                 }
+                else if (rand < 0.130){
+                    powerUps.add(new PowerUp(power_type.slowTime,e.getX(),e.getY()));
+                }
                 if (e.getType() == type.type_first){
                     if (e.getRank() == rank.rank_first){ // сколько очков за врага первого типа первого ранга
                         player.addScore(100);
                     }
+                    else if (e.getRank() == rank.rank_second){
+                        player.addScore(200);
+                    }
+                    else if (e.getRank() == rank.rank_third){
+                        player.addScore(300);
+                    }
+                    else if (e.getRank() == rank.rank_fourth){
+                        player.addScore(400);
+                    }
+                }
+                else if (e.getType() == type.type_second){
+                    if (e.getRank() == rank.rank_first){
+                        player.addScore(500);
+                    }
+                    else if (e.getRank() == rank.rank_second){
+                        player.addScore(800);
+                    }
                 }
                 enemies.remove(i);
                 i--;
+                e.explode();
+                explosions.add(new Explosion(e.getX(),e.getY() + e.getR()/2,e.getR(),e.getR()+30));
             }
         }
 
@@ -261,19 +315,38 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 switch (pt){
                     case addExtraLife:
                         player.gainLife();
+                        texts.add(new Text(player.getX(), player.getY(),2000,"Extra life"));
                         break;
                     case addOnePower:
                         player.increasePower(1);
+                        texts.add(new Text(player.getX(), player.getY(),2000,"Power Up"));
                         break;
                     case addTwoPower:
                         player.increasePower(2);
+                        texts.add(new Text(player.getX(), player.getY(),2000,"Double Power Up"));
+                        break;
+                    case slowTime:
+                        slowDownTimer = System.nanoTime();
+                        for (int j = 0; j < enemies.size(); j++){
+                            enemies.get(j).setSlow(true);
+                        }
+                        texts.add(new Text(player.getX(), player.getY(),2000,"Slow down"));
                         break;
                 }
 
             }
 
         }
-
+        // обновление замедляения времени
+        if (slowDownTimer != 0){
+            slowDownTimerDiff = (System.nanoTime() - slowDownTimer)/1000000;
+            if (slowDownTimerDiff > slowDownLength){ // срок действия замедления кончился
+                slowDownTimer = 0;
+                for (int j = 0; j < enemies.size(); j++){ // проходимся по всем врагам, чтобы установить изначальную скорость
+                    enemies.get(j).setSlow(false);
+                }
+            }
+        }
     }
 
     private void gameRender(){ // отрисовывает все компоненты игры(игрока врагов снаряды задний фон и т.д)
@@ -281,6 +354,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // Отрисовка заднего фона
         g.setColor(new Color(0,170,255));
         g.fillRect(0,0,WIDTH,HEIGHT); // заполняет экран
+        if (slowDownTimer != 0){
+            g.setColor(new Color(255,255,255,64));
+            g.fillRect(0,0,WIDTH,HEIGHT);
+        }
         BufferedImage buf;
         //try{
             //buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\background.PNG"));
@@ -306,6 +383,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // отрисовка припасов-усилителей
         for (int i = 0; i < powerUps.size(); i++){
             powerUps.get(i).draw(g);
+        }
+
+        // отрисовка взрывов
+        for (int i = 0; i < explosions.size(); i++){
+            explosions.get(i).draw(g);
+        }
+
+        // отрисовка текстов
+        for (int i = 0; i < texts.size(); i++){
+            texts.get(i).draw(g);
         }
 
         // отрисовка номера волны
@@ -343,11 +430,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         g.setStroke(new BasicStroke(1));
 
+        //отрисовка шкалы замедления времени
+
+        if (slowDownTimer != 0){ // если подобран припас замедления времени
+            g.setColor(Color.WHITE);
+            g.drawRect(10,65,100,8);
+            g.fillRect(10,65,(int)(100 - 100*slowDownTimerDiff/slowDownLength),8);
+        }
+
         //отрисовка счета игрока
         g.setColor(Color.WHITE);
         g.setFont(new Font("Century Gothic", Font.PLAIN,14));
         g.drawString("Score: "+player.getScore(),WIDTH - 100,30);
         g.setFont(new Font("Century Gothic",Font.PLAIN,10));
+
     }
     private void gameDraw(){ // отрисовка закадрового изображения. Объект g связан с закадровым изображением
         Graphics g2  = this.getGraphics();// графический объект для GamePanel. Это кисть для ирового экрана
@@ -408,6 +504,20 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
             for (int i = 0; i < 1; i++){
                 enemies.add(new Enemy(type.type_second, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 1 ранга
+            }
+        }
+        if (waveNumber == 7){
+            for (int i = 0; i < 4; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 3; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_third)); // если номер волны = 3, создается 4 врага первого типа 1 ранга
+            }
+            for (int i = 0; i < 1; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_fourth)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 7; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 1 ранга
             }
         }
     }
