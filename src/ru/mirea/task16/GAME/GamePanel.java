@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public static ArrayList<Bullet> bullets; // массив пуль
     public static ArrayList<Enemy> enemies; // массив врагов
+    public static ArrayList<PowerUp> powerUps; //массив припасов-улучшений
 
     private long waveStartTimer;
     private long waveStartTimerDiff; // показывает сколько времени прошло
@@ -35,6 +36,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     private int waveDelay = 2000;
 
     private BufferedImage health_icon;
+
+    private BufferedImage background;
 
     // КОНСТРУКТОР
     public GamePanel(){
@@ -65,6 +68,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         bullets = new ArrayList<Bullet>(); // инициализация листа пуль
 
         enemies = new ArrayList<Enemy>(); // инициализация листа врагов
+
+        powerUps = new ArrayList<PowerUp>(); // инициализация листа улучшений
 
         waveStartTimer = 0;
         waveStartTimerDiff = 0;
@@ -143,6 +148,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < enemies.size(); i++){
             enemies.get(i).update();
         }
+
+        // обновление припасов-усилителей
+        for (int i = 0; i < powerUps.size(); i++){
+            boolean remove = powerUps.get(i).update();
+            if (remove){
+                powerUps.remove(i);
+                i--;
+            }
+        }
         // коллизия пули и врага
         for (int i = 0; i < bullets.size(); i++){
             Bullet b = bullets.get(i);
@@ -172,7 +186,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // проверка мертвых врагов
         for (int i = 0; i < enemies.size(); i++){
             if (enemies.get(i).isDead()){
+
                 Enemy e = enemies.get(i);
+
+                // выпадение припаса-улучшения при смерти врага с каким-то шансом
+
+                // шанс выпадения
+                double rand = Math.random(); // случайное число от 0 до 1
+                if (rand < 0.01) {
+                    powerUps.add(new PowerUp(power_type.addExtraLife,e.getX(),e.getY()));
+                }
+                else if (rand < 0.020) {
+                    powerUps.add(new PowerUp(power_type.addTwoPower,e.getX(),e.getY()));
+                }
+                else if (rand < 0.120){
+                    powerUps.add(new PowerUp(power_type.addOnePower,e.getX(),e.getY()));
+                }
                 if (e.getType() == type.type_first){
                     if (e.getRank() == rank.rank_first){ // сколько очков за врага первого типа первого ранга
                         player.addScore(100);
@@ -207,6 +236,44 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
+        // коллизия игрока и припаса
+        int px = player.getX();
+        int py = player.getY();
+        int pw = player.getIcon_width();
+        int ph = player.getIcon_height();
+        py = py + ph/2;
+        double diagonal = Math.sqrt(pw*pw + ph*ph)/2;
+        diagonal = diagonal - diagonal/2;
+        for (int i = 0; i < powerUps.size(); i++){
+            PowerUp pu = powerUps.get(i);
+            double puX = pu.getX();
+            double puY = pu.getY();
+            int puR = pu.getR();
+            double dx = px - puX;
+            double dy = py - puY;
+            double dist = Math.sqrt(dx*dx + dy*dy);
+
+            // Игрок собирает припас
+            if (dist <= diagonal + puR){
+                powerUps.remove(i);
+                i--;
+                power_type pt = pu.getPowerType();
+                switch (pt){
+                    case addExtraLife:
+                        player.gainLife();
+                        break;
+                    case addOnePower:
+                        player.increasePower(1);
+                        break;
+                    case addTwoPower:
+                        player.increasePower(2);
+                        break;
+                }
+
+            }
+
+        }
+
     }
 
     private void gameRender(){ // отрисовывает все компоненты игры(игрока врагов снаряды задний фон и т.д)
@@ -214,6 +281,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // Отрисовка заднего фона
         g.setColor(new Color(0,170,255));
         g.fillRect(0,0,WIDTH,HEIGHT); // заполняет экран
+        BufferedImage buf;
+        //try{
+            //buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\background.PNG"));
+            //background = resize(buf,WIDTH,HEIGHT);
+        //}catch(Exception e){}
+        //g.drawImage(background,0,0,null);
         g.setColor(Color.BLACK);
         g.drawString("FPS: " + averageFPS,10,10);
         g.drawString("Num bullets" + bullets.size(), 10,20);
@@ -228,6 +301,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // отрисовка врагов
         for (int i = 0; i < enemies.size(); i++){
             enemies.get(i).draw(g);
+        }
+
+        // отрисовка припасов-усилителей
+        for (int i = 0; i < powerUps.size(); i++){
+            powerUps.get(i).draw(g);
         }
 
         // отрисовка номера волны
@@ -246,13 +324,24 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         // отрисовка health points игрока
         try{
-            BufferedImage buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_health.png"));
+            buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_health.png"));
             health_icon = resize(buf,15,15);
         }
         catch(Exception e){}
         for (int i = 0; i < player.getLives(); i++){
             g.drawImage(health_icon,(int)(10+i*20),30, null);
         }
+
+        // Отрисовка уровня игрока
+
+        g.setColor(Color.YELLOW);
+        g.fillRect(10,50, player.getPower()*8,8);
+        g.setColor(Color.YELLOW.darker());
+        g.setStroke(new BasicStroke(2));
+        for (int i = 0; i < player.getRequiredPower(); i++){
+            g.drawRect(10 + i*8,50,8,8);
+        }
+        g.setStroke(new BasicStroke(1));
 
         //отрисовка счета игрока
         g.setColor(Color.WHITE);
@@ -283,7 +372,44 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 enemies.add(new Enemy(type.type_first, rank.rank_first)); // если номер волны = 1, создается 8 врагов первого типа 1 ранга
             }
         }
-
+        if (waveNumber == 3){
+            for (int i = 0; i < 4; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 1 ранга
+            }
+            for (int i = 0; i < 4; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+        }
+        if (waveNumber == 4){
+            for (int i = 0; i < 8; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 1 ранга
+            }
+            for (int i = 0; i < 8; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+        }
+        if (waveNumber == 5){
+            for (int i = 0; i < 8; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 3; i++){
+                enemies.add(new Enemy(type.type_second, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 1 ранга
+            }
+        }
+        if (waveNumber == 6){
+            for (int i = 0; i < 10; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 5; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 1 ранга
+            }
+            for (int i = 0; i < 2; i++){
+                enemies.add(new Enemy(type.type_second, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 1; i++){
+                enemies.add(new Enemy(type.type_second, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 1 ранга
+            }
+        }
     }
     public void keyTyped(KeyEvent key){
     }

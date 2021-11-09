@@ -45,8 +45,9 @@ public class Enemy {
 
         BufferedImage buf;
         if (tp == type.type_first){
-            color1 = Color.WHITE;
+
             if (rk == rank.rank_first){
+
                 speed = 2;
                 r = 10;
                 r2 = (int)(r*3);
@@ -56,8 +57,39 @@ public class Enemy {
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
+            else if (rk == rank.rank_second){
+                speed = 2;
+                r = 20;
+                r2 = (int)(r*3);
+                health = 3;
+                try {
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
+                    enemy_icon = resize(buf,r2,r2);
+                }catch (Exception e){}
+            }
         }
-
+        else if (tp == type.type_second){
+            if (rk == rank.rank_first){
+                speed = 6;
+                r = 13;
+                r2 = (int)(r*3);
+                health = 3;
+                try {
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\Enemy_Type22.png"));
+                    enemy_icon = resize(buf,r2,r2);
+                }catch (Exception e){}
+            }
+            else if (rk == rank.rank_second){
+                speed = 9;
+                r = 10;
+                r2 = (int)(r*3);
+                health = 1;
+                try {
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\Enemy_Type2.png"));
+                    enemy_icon = resize(buf,r2,r2);
+                }catch (Exception e){}
+            }
+        }
         x = Math.random()*GamePanel.WIDTH/2 + GamePanel.HEIGHT/4; // начальное положение спавна врага по x
         y = -r; // начальное положение спавна врага по y
 
@@ -147,7 +179,6 @@ public class Enemy {
                 }
             }catch (Exception e){}
         }
-
     }
     public void draw(Graphics2D g){
         g.drawImage(enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);

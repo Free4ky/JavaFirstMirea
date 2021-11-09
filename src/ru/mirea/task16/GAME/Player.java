@@ -47,6 +47,10 @@ public class Player {
 
     private int score; // счет игрока
 
+    private int powerLevel; // уровень игрока
+    private int power; // отвечает за количество собранных припасов
+    private int[] requiredPower = {1,2,3,4,5}; // массив уровней игрока
+
     //КОНСТРУКТОР
 
     public Player(){
@@ -85,6 +89,9 @@ public class Player {
         recoveryTimer = 0;
 
         score = 0;
+
+        power = 0;
+        powerLevel = 0;
     }
 
     // ФУНКЦИИ
@@ -137,10 +144,22 @@ public class Player {
         dx = 0;
         dy = 0;
 
-        if (firing){ // если игрок стреляет
+        // если игрок стреляет
+        if (firing){
             long elapsed = (System.nanoTime() - firingTimer)/1000000; // сколько времени прощло с момента последнего выстрела
             if (elapsed > firingDelay){
-                GamePanel.bullets.add(new Bullet(270,x,y));
+                if (powerLevel < 2){
+                    GamePanel.bullets.add(new Bullet(270,x,y));
+                }
+                else if (powerLevel < 4){
+                    GamePanel.bullets.add(new Bullet(270,x + 5,y));
+                    GamePanel.bullets.add(new Bullet(270,x - 5,y));
+                }
+                else{
+                    GamePanel.bullets.add(new Bullet(270,x,y));
+                    GamePanel.bullets.add(new Bullet(275,x + 5,y));
+                    GamePanel.bullets.add(new Bullet(265,x - 5,y));
+                }
                 firingTimer = System.nanoTime();
             }
         }
@@ -218,6 +237,20 @@ public class Player {
         recoveryTimer = System.nanoTime(); // начинается отсчет времени восстановления
     }
 
+    public void gainLife(){
+        this.lives++;
+    }
+
+    public void increasePower(int i){
+        power += i;
+        if (power >= requiredPower[powerLevel]){
+            power-=requiredPower[powerLevel];
+            powerLevel++;
+        }
+    }
+    public int getPowerLevel(){return powerLevel;}
+    public int getPower(){return power;}
+    public int getRequiredPower(){return requiredPower[powerLevel];}
     public int getScore() {
         return score;
     }
