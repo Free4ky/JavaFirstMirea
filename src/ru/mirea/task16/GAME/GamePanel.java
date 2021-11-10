@@ -248,9 +248,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 else if (rand < 0.130){
                     powerUps.add(new PowerUp(power_type.slowTime,e.getX(),e.getY()));
                 }
-                else {
-                    powerUps.add(new PowerUp(power_type.addTwoPower,e.getX(),e.getY()));
-                }
                 if (e.getType() == type.type_first){
                     if (e.getRank() == rank.rank_first){ // сколько очков за врага первого типа первого ранга
                         player.addScore(100);
@@ -420,8 +417,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             String s = "- W A V E  " + waveNumber + "  -";
             int length = (int) g.getFontMetrics().getStringBounds(s,g).getWidth(); // длина строки в пикселях
             int alpha = (int) (255*Math.sin(3.14*waveStartTimerDiff / waveDelay)); // прозрачность
-            if (alpha > 255) {
-                alpha = 255;
+            if (alpha >= 255) {
+                alpha = 250;
+            }
+            else if (alpha < 0){
+                alpha = 0;
             }
             g.setColor(new Color(255,255,255,alpha)); // цвет с прозрачностью alpha
             g.drawString(s,WIDTH/2 - length/2,HEIGHT/2); // отрисовка строки волны по середине
@@ -493,13 +493,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             for (int i = 0; i < 1; i++){
                 enemies.add(new Enemy(type.type_fourth, rank.rank_first)); // если номер волны = 1, создается 4 врага первого типа 1 ранга
             }
-            for (int i = 0; i < 3; i++){
-                enemies.add(new Enemy(type.type_third, rank.rank_first)); // если номер волны = 1, создается 4 врага первого типа 1 ранга
-            }
         }
         if (waveNumber == 2){
             for (int i = 0; i < 8; i++){
                 enemies.add(new Enemy(type.type_first, rank.rank_first)); // если номер волны = 1, создается 8 врагов первого типа 1 ранга
+            }
+            for (int i = 0; i < 2; i++){
+                enemies.add(new Enemy(type.type_third, rank.rank_first)); // если номер волны = 1, создается 4 врага первого типа 1 ранга
             }
         }
         if (waveNumber == 3){
@@ -508,6 +508,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
             for (int i = 0; i < 4; i++){
                 enemies.add(new Enemy(type.type_first, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 2; i++){
+                enemies.add(new Enemy(type.type_third, rank.rank_first)); // если номер волны = 1, создается 4 врага первого типа 1 ранга
             }
         }
         if (waveNumber == 4){
@@ -524,6 +527,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
             for (int i = 0; i < 3; i++){
                 enemies.add(new Enemy(type.type_second, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 1 ранга
+            }
+            for (int i = 0; i < 2; i++){
+                enemies.add(new Enemy(type.type_fourth, rank.rank_first)); // если номер волны = 1, создается 4 врага первого типа 1 ранга
             }
         }
         if (waveNumber == 6){
@@ -567,6 +573,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
         if (waveNumber == 9){
+            for (int i = 0; i < 3; i++){
+                enemies.add(new Enemy(type.type_fourth, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 4; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_third)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 6; i++){
+                enemies.add(new Enemy(type.type_second, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 2; i++){
+                enemies.add(new Enemy(type.type_second, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 4; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_third)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+        }
+        if (waveNumber == 10){
             running = false;
         }
     }

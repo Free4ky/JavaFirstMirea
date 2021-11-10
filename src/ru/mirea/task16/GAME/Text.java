@@ -30,8 +30,11 @@ public class Text {
         g.setFont(new Font("Century Gothic",Font.PLAIN,12));
         long elapsed = (System.nanoTime() - start)/1000000;
         int alpha = (int)(255*Math.sin(3.14 * elapsed/time)); // задает прозрачность
-        if (alpha > 255){
+        if (alpha >= 250){
             alpha = 250;
+        }
+        else if (alpha < 0) {
+            alpha = 0;
         }
         g.setColor(new Color(255,255,255,alpha));
         int length = (int) g.getFontMetrics().getStringBounds(s,g).getWidth(); // длина строки в пикселях
