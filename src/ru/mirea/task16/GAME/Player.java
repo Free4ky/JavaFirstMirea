@@ -174,7 +174,7 @@ public class Player {
                 else if (powerLevel < 10){
                     GamePanel.bullets.add(new Bullet(270,x + 5,y));
                     GamePanel.bullets.add(new Bullet(270,x - 5,y));
-                    GamePanel.bullets.add(new Bullet(280,x + 10,y));
+                    GamePanel.bullets.add(new Bullet(275,x + 10,y));
                     GamePanel.bullets.add(new Bullet(265,x - 10,y));
                     for (int i = 0; i < GamePanel.bullets.size(); i++){
                         Bullet b = GamePanel.bullets.get(i);
@@ -184,7 +184,7 @@ public class Player {
                 else{
                     GamePanel.bullets.add(new Bullet(270,x + 5,y));
                     GamePanel.bullets.add(new Bullet(270,x - 5,y));
-                    GamePanel.bullets.add(new Bullet(280,x + 10,y));
+                    GamePanel.bullets.add(new Bullet(275,x + 10,y));
                     GamePanel.bullets.add(new Bullet(265,x - 10,y));
                     for (int i = 0; i < GamePanel.bullets.size(); i++){
                         Bullet b = GamePanel.bullets.get(i);
