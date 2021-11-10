@@ -121,6 +121,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 totalTime = 0;
             }
         }
+        g.setColor(new Color(0,170,255));
+        g.fillRect(0,0,WIDTH,HEIGHT);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Century Gothic",Font.PLAIN,16));
+        String s = "G A M E   O V E R";
+        int length = (int) g.getFontMetrics().getStringBounds(s,g).getWidth();
+        g.drawString(s,WIDTH/2 - length/2, HEIGHT/2);
+        s = "Total score: " + player.getScore();
+        length = (int) g.getFontMetrics().getStringBounds(s,g).getWidth();
+        g.drawString(s,WIDTH/2 - length/2, HEIGHT/2 + 30);
+        gameDraw();
 
     }
     public static int getFrameCount(){return frameCount;}
@@ -237,6 +248,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 else if (rand < 0.130){
                     powerUps.add(new PowerUp(power_type.slowTime,e.getX(),e.getY()));
                 }
+                else {
+                    powerUps.add(new PowerUp(power_type.addTwoPower,e.getX(),e.getY()));
+                }
                 if (e.getType() == type.type_first){
                     if (e.getRank() == rank.rank_first){ // сколько очков за врага первого типа первого ранга
                         player.addScore(100);
@@ -266,6 +280,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
 
+        // Проверка на мертвого игрока
+
+        if (player.isDead()){
+            running = false;
+        }
         // коллизия врага и игрока
         if (!player.isRecovering()){ // если игрок не восстанавливается
             int px = player.getX();
@@ -422,7 +441,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // Отрисовка уровня игрока
 
         g.setColor(Color.YELLOW);
-        g.fillRect(10,50, player.getPower()*8,8);
+        if (player.getPowerLevel() == player.getMaxPowerLevel()){
+            g.fillRect(10,50, player.getPower()*8,8);
+            g.setColor(Color.WHITE);
+            String s = "Max Power!";
+            g.setFont(new Font("Century Gothic", Font.PLAIN,10));
+            g.drawString(s, 10+player.getRequiredPower()*9, 60);
+        }
+        else{
+            g.fillRect(10,50, player.getPower()*8,8);
+        }
         g.setColor(Color.YELLOW.darker());
         g.setStroke(new BasicStroke(2));
         for (int i = 0; i < player.getRequiredPower(); i++){
@@ -461,6 +489,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         if (waveNumber == 1){
             for (int i = 0; i < 4; i++){
                 enemies.add(new Enemy(type.type_first, rank.rank_first)); // если номер волны = 1, создается 4 врага первого типа 1 ранга
+            }
+            for (int i = 0; i < 1; i++){
+                enemies.add(new Enemy(type.type_fourth, rank.rank_first)); // если номер волны = 1, создается 4 врага первого типа 1 ранга
+            }
+            for (int i = 0; i < 3; i++){
+                enemies.add(new Enemy(type.type_third, rank.rank_first)); // если номер волны = 1, создается 4 врага первого типа 1 ранга
             }
         }
         if (waveNumber == 2){
@@ -519,6 +553,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             for (int i = 0; i < 7; i++){
                 enemies.add(new Enemy(type.type_first, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 1 ранга
             }
+
+        }
+        if (waveNumber == 8){
+            for (int i = 0; i < 6; i++){
+                enemies.add(new Enemy(type.type_second, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 3; i++){
+                enemies.add(new Enemy(type.type_second, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 4; i++){
+                enemies.add(new Enemy(type.type_first, rank.rank_third)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+        }
+        if (waveNumber == 9){
+            running = false;
         }
     }
     public void keyTyped(KeyEvent key){

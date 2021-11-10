@@ -6,10 +6,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 enum pic{
-    first_pic, second_pic, third_pic, fourth_pic
+    first_pic, second_pic, third_pic, fourth_pic, fifth_pic
 }
 enum type{
-    type_first, type_second, type_third
+    type_first, type_second, type_third, type_fourth
 }
 enum rank{
     rank_first, rank_second, rank_third, rank_fourth;
@@ -48,6 +48,7 @@ public class Enemy {
     private int hitDelay = 70;
 
     private boolean slow;
+
 
     //CONSTRUCTOR
     public Enemy(type type, rank rank){
@@ -117,6 +118,30 @@ public class Enemy {
                 health = 1;
                 try {
                     buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_Enemy_Type2.png"));
+                    enemy_icon = resize(buf,r2,r2);
+                }catch (Exception e){}
+            }
+        }
+        else if (tp == type.type_third){
+            if (rk == rank.rank_first){
+                speed = 4;
+                r = 10;
+                r2 = (int)(r*3);
+                health = 6;
+                try {
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy_t3.png"));
+                    enemy_icon = resize(buf,r2,r2);
+                }catch (Exception e){}
+            }
+        }
+        else if (tp == type.type_fourth){
+            if (rk == rank.rank_first){
+                speed = 1;
+                r = 40;
+                r2 = (int)(r*2.5);
+                health = 10;
+                try {
+                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\planet_enemy.png"));
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
@@ -242,6 +267,27 @@ public class Enemy {
                 }
             }catch (Exception e){}
         }
+        else if (tp == type.type_third){
+            try{
+                switch (picture){
+                    case first_pic:
+                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy_t3.png"));
+                        enemy_icon = resize(buf,r2,r2);
+                        picture = pic.second_pic;
+                        break;
+                    case second_pic:
+                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy_t3 (1).png"));
+                        enemy_icon = resize(buf,r2,r2);
+                        picture = pic.third_pic;
+                        break;
+                    case third_pic:
+                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy_t3 (2).png"));
+                        enemy_icon = resize(buf,r2,r2);
+                        picture = pic.first_pic;
+                        break;
+                }
+            }catch (Exception e){}
+        }
         if (hit){
             long past = (System.nanoTime() - hitTimer)/1000000;
             if (past > hitDelay){
@@ -260,7 +306,6 @@ public class Enemy {
                     g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
                 }
                 else if (tp == type.type_second){
-
                     if (rk == rank.rank_first){
 
                         buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_Enemy_Type21.png"));
@@ -269,6 +314,21 @@ public class Enemy {
                     }
                     else if (rk == rank.rank_second){
                         buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\Enemy_Type2.png"));
+                        hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
+                        g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
+                    }
+                }
+                else if (tp == type.type_third){
+                    if (rk == rank.rank_first){
+                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_enemy_tp3.png"));
+                        hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
+                        g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
+                    }
+                }
+                else if (tp == type.type_fourth){
+
+                    if (rk == rank.rank_first){
+                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_planet.png"));
                         hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
                         g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
                     }

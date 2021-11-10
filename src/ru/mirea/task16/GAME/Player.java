@@ -49,7 +49,8 @@ public class Player {
 
     private int powerLevel; // уровень игрока
     private int power; // отвечает за количество собранных припасов
-    private int[] requiredPower = {1,2,3,4,5}; // массив уровней игрока
+    private int maxPowerLevel = 14;
+    private int[] requiredPower = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15}; // массив уровней игрока
 
     //КОНСТРУКТОР
 
@@ -112,6 +113,10 @@ public class Player {
         this.firing = b;
     }
 
+    public boolean isDead(){
+        return lives <=0;
+    }
+
     public void update(){
         if (left){
             dx = -speed;
@@ -155,10 +160,36 @@ public class Player {
                     GamePanel.bullets.add(new Bullet(270,x + 5,y));
                     GamePanel.bullets.add(new Bullet(270,x - 5,y));
                 }
-                else{
+                else if (powerLevel < 6){
                     GamePanel.bullets.add(new Bullet(270,x,y));
                     GamePanel.bullets.add(new Bullet(275,x + 5,y));
                     GamePanel.bullets.add(new Bullet(265,x - 5,y));
+                }
+                else if (powerLevel < 8){
+                    GamePanel.bullets.add(new Bullet(270,x + 5,y));
+                    GamePanel.bullets.add(new Bullet(270,x - 5,y));
+                    GamePanel.bullets.add(new Bullet(275,x + 10,y));
+                    GamePanel.bullets.add(new Bullet(265,x - 10,y));
+                }
+                else if (powerLevel < 10){
+                    GamePanel.bullets.add(new Bullet(270,x + 5,y));
+                    GamePanel.bullets.add(new Bullet(270,x - 5,y));
+                    GamePanel.bullets.add(new Bullet(280,x + 10,y));
+                    GamePanel.bullets.add(new Bullet(265,x - 10,y));
+                    for (int i = 0; i < GamePanel.bullets.size(); i++){
+                        Bullet b = GamePanel.bullets.get(i);
+                        b.setR((int)(3*1.2));
+                    }
+                }
+                else{
+                    GamePanel.bullets.add(new Bullet(270,x + 5,y));
+                    GamePanel.bullets.add(new Bullet(270,x - 5,y));
+                    GamePanel.bullets.add(new Bullet(280,x + 10,y));
+                    GamePanel.bullets.add(new Bullet(265,x - 10,y));
+                    for (int i = 0; i < GamePanel.bullets.size(); i++){
+                        Bullet b = GamePanel.bullets.get(i);
+                        b.setR((int)(b.getR()*1.5));
+                    }
                 }
                 firingTimer = System.nanoTime();
             }
@@ -232,6 +263,8 @@ public class Player {
     }
     public boolean isRecovering(){return this.recovering;}
 
+    public int getMaxPowerLevel(){return this.maxPowerLevel;}
+
     //если игрок столкнулся со врагом
     public void loseLife(){
         lives--;
@@ -247,7 +280,9 @@ public class Player {
         power += i;
         if (power >= requiredPower[powerLevel]){
             power-=requiredPower[powerLevel];
-            powerLevel++;
+            if (powerLevel < maxPowerLevel){
+                powerLevel++;
+            }
         }
     }
     public int getPowerLevel(){return powerLevel;}

@@ -35,6 +35,9 @@ public class Bullet {
     public double getY(){return this.y;}
     public double getR(){return this.r;}
 
+    public void setR(int r){
+        this.r = r;
+    }
     public boolean update(){
         x+=dx;
         y+=dy;
