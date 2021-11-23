@@ -590,6 +590,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             }
         }
         if (waveNumber == 10){
+            for (int i = 0; i < 7; i++){
+                enemies.add(new Enemy(type.type_third, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 4; i++){
+                enemies.add(new Enemy(type.type_fourth, rank.rank_first)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+            for (int i = 0; i < 4; i++){
+                enemies.add(new Enemy(type.type_second, rank.rank_second)); // если номер волны = 3, создается 4 врага первого типа 2 ранга
+            }
+        }
+        if (waveNumber == 11){
             running = false;
         }
     }
