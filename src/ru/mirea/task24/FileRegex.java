@@ -15,7 +15,7 @@ public class FileRegex {
         String place = sc.next();
         Pattern pattern = Pattern.compile("^"+ "place: " + place + ".*");
         Matcher matcher;
-        try(FileReader reader = new FileReader("C:\\Новая папка\\PlayersScore.txt")){
+        try(FileReader reader = new FileReader("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task24\\PlayersScore.txt")){
 
             BufferedReader breader = new BufferedReader(reader);
             String line = breader.readLine();

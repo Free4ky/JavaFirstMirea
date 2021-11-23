@@ -1,0 +1,4 @@
+place: 1 Score: 777888 Name: Danil
+place: 2 Score: 77788 Name: Ivan
+place: 3 Score: 7778 Name: Dmitry
+place: 4 Score: 777 Name: Vova
