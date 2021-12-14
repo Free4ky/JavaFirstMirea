@@ -376,7 +376,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         BufferedImage buf;
         //try{
-            //buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\background.PNG"));
+            //buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\background.PNG"));
             //background = resize(buf,WIDTH,HEIGHT);
         //}catch(Exception e){}
         //g.drawImage(background,0,0,null);
@@ -430,7 +430,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         // отрисовка health points игрока
         try{
-            buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_health.png"));
+            buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_health.png"));
             health_icon = resize(buf,15,15);
         }
         catch(Exception e){}

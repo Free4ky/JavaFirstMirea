@@ -39,22 +39,22 @@ public class PowerUp {
             switch (powerType){
                 case addExtraLife:
                     r = 15;
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\addHealthPowerUp.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\addHealthPowerUp.png"));
                     powerUp_icon = resize(buf,r,r);
                     break;
                 case addOnePower:
                     r = 20;
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\powerUp_icon.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\powerUp_icon.png"));
                     powerUp_icon = resize(buf,r,r);
                     break;
                 case addTwoPower:
                     r = 20;
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\powerUp_icon2_1.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\powerUp_icon2_1.png"));
                     powerUp_icon = resize(buf,r,r);
                     break;
                 case slowTime:
                     r = 20;
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\slowTime.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\slowTime.png"));
                     powerUp_icon = resize(buf,r,r);
                     break;
             }

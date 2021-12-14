@@ -67,12 +67,12 @@ public class Player {
         lives = 3;
         BufferedImage buf;
         try {
-             buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon.png"));
+             buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon.png"));
              player_icon = resize(buf,icon_width,icon_height);
 
         }catch (IOException e){}
         try {
-            buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_player_icon.png"));
+            buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_player_icon.png"));
             hit_player_icon = resize(buf,icon_width,icon_height);
 
         }catch (IOException e){}
@@ -199,17 +199,17 @@ public class Player {
         try{
             switch (pic){
                 case first_pic:
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon2.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon2.png"));
                     player_icon = player_icon = resize(buf,icon_width,icon_height);
                     pic = pictures.second_pic;
                     break;
                 case second_pic:
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon3.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon3.png"));
                     player_icon = player_icon = resize(buf,icon_width,icon_height);
                     pic = pictures.third_pic;
                     break;
                 case third_pic:
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\player_icon.png"));
                     player_icon = player_icon = resize(buf,icon_width,icon_height);
                     pic = pictures.first_pic;
                     break;

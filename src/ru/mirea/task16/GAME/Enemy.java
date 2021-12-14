@@ -65,7 +65,7 @@ public class Enemy {
                 r2 = (int)(r*3);
                 health = 1;
                 try {
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
@@ -75,7 +75,7 @@ public class Enemy {
                 r2 = (int)(r*3);
                 health = 3;
                 try {
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
@@ -85,7 +85,7 @@ public class Enemy {
                 r2 = (int)(r*3);
                 health = 5;
                 try {
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
@@ -95,7 +95,7 @@ public class Enemy {
                 r2 = (int)(r*3);
                 health = 10;
                 try {
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
@@ -107,7 +107,7 @@ public class Enemy {
                 r2 = (int)(r*3);
                 health = 3;
                 try {
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\Enemy_Type22.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\Enemy_Type22.png"));
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
@@ -117,7 +117,7 @@ public class Enemy {
                 r2 = (int)(r*3);
                 health = 1;
                 try {
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_Enemy_Type2.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_Enemy_Type2.png"));
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
@@ -129,7 +129,7 @@ public class Enemy {
                 r2 = (int)(r*3);
                 health = 6;
                 try {
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\small_tp3.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\small_tp3.png"));
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
@@ -141,7 +141,7 @@ public class Enemy {
                 r2 = (int)(r*2.5);
                 health = 10;
                 try {
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\planet_enemy.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\planet_enemy.png"));
                     enemy_icon = resize(buf,r2,r2);
                 }catch (Exception e){}
             }
@@ -245,22 +245,22 @@ public class Enemy {
             try{
                 switch (picture){
                     case first_pic:
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy1.png"));
                         enemy_icon = resize(buf,r2,r2);
                         picture = pic.second_pic;
                         break;
                     case second_pic:
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy2.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy2.png"));
                         enemy_icon = resize(buf,r2,r2);
                         picture = pic.third_pic;
                         break;
                     case third_pic:
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy3.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy3.png"));
                         enemy_icon = resize(buf,r2,r2);
                         picture = pic.fourth_pic;
                         break;
                     case fourth_pic:
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy4.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy4.png"));
                         enemy_icon = resize(buf,r2,r2);
                         picture = pic.first_pic;
                         break;
@@ -271,17 +271,17 @@ public class Enemy {
             try{
                 switch (picture){
                     case first_pic:
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy_t3.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\enemy_t3.png"));
                         enemy_icon = resize(buf,r2,r2);
                         picture = pic.second_pic;
                         break;
                     case second_pic:
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\small_tp31.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\small_tp31.png"));
                         enemy_icon = resize(buf,r2,r2);
                         picture = pic.third_pic;
                         break;
                     case third_pic:
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\small_tp32.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\small_tp32.png"));
                         enemy_icon = resize(buf,r2,r2);
                         picture = pic.first_pic;
                         break;
@@ -301,26 +301,26 @@ public class Enemy {
             try{
                 BufferedImage buf;
                 if (tp == type.type_first){
-                    buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_enemy11.png"));
+                    buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_enemy11.png"));
                     hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
                     g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
                 }
                 else if (tp == type.type_second){
                     if (rk == rank.rank_first){
 
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_Enemy_Type21.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_Enemy_Type21.png"));
                         hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
                         g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
                     }
                     else if (rk == rank.rank_second){
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\Enemy_Type2.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\Enemy_Type2.png"));
                         hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
                         g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
                     }
                 }
                 else if (tp == type.type_third){
                     if (rk == rank.rank_first){
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hitt_tp3.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hitt_tp3.png"));
                         hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
                         g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
                     }
@@ -328,7 +328,7 @@ public class Enemy {
                 else if (tp == type.type_fourth){
 
                     if (rk == rank.rank_first){
-                        buf = ImageIO.read(new File("C:\\Users\\Den\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_planet.png"));
+                        buf = ImageIO.read(new File("C:\\Users\\Den Ka\\IdeaProjects\\JavaFirstMirea\\src\\ru\\mirea\\task16\\GAME\\Sprites\\hit_planet.png"));
                         hit_enemy_icon = resize(buf,(int)(r2*1.3), (int)(r2*1.3));
                         g.drawImage(hit_enemy_icon,(int)(x-r2/2),(int)(y-r2/2),null);
                     }
